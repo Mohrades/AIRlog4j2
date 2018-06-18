@@ -52,8 +52,11 @@ public class AIRRequest {
 	private boolean successfully, waitingForResponse;
 	private List<String> hosts;
 	private int sleep, timeout, threshold;
+	private int PREFERREDHOST;
 
-	public AIRRequest(List<String> hosts, int sleep, int timeout, int threshold) {
+	public AIRRequest(List<String> hosts, int sleep, int timeout, int threshold, int PREFERREDHOST) {
+		this.PREFERREDHOST = PREFERREDHOST;
+
 		this.hosts = hosts;
 		this.sleep = sleep;
 		this.threshold = threshold;
@@ -67,13 +70,24 @@ public class AIRRequest {
 		if(hosts != null) {
 			SocketConnection connection = null;
 
-			for(String host : hosts) {
+			if((PREFERREDHOST < 0) || (PREFERREDHOST >= hosts.size())) {
+				for(String host : hosts) {
+					int separator = host.indexOf(":");
+
+					connection = new SocketConnection((host.substring(0, separator)).trim(), Integer.parseInt((host.substring(separator+1)).trim()), sleep, timeout);
+					if(connection.isOpen()) {
+						if(threshold > 0) connection.setThreshold(threshold);
+						break;
+					}
+				}
+			}
+			else {
+				String host = hosts.get(PREFERREDHOST);
 				int separator = host.indexOf(":");
 
 				connection = new SocketConnection((host.substring(0, separator)).trim(), Integer.parseInt((host.substring(separator+1)).trim()), sleep, timeout);
 				if(connection.isOpen()) {
 					if(threshold > 0) connection.setThreshold(threshold);
-					break;
 				}
 			}
 
@@ -106,7 +120,7 @@ public class AIRRequest {
 	public BalanceAndDate getBalanceAndDate(String msisdn, int dedicatedAccountID) {
 		SocketConnection air = getConnection();
 
-		BalanceAndDate result = new GetBalanceAndDate().getData(air, msisdn,dedicatedAccountID);
+		BalanceAndDate result = new GetBalanceAndDate().getData(air, msisdn, dedicatedAccountID);
 		setSuccessfully(air.isAvailable());
 
 		return result;
@@ -334,6 +348,38 @@ public class AIRRequest {
 		boolean result = new UpdatePeriodicAccountManagementData().update(air, msisdn, pamUpdateInformationList, originOperatorID);
 		setSuccessfully(air.isAvailable());
 		return result;
+	}
+
+	public int testConnection(String msisdn, int PREFERREDHOSTOLD) {
+		this.PREFERREDHOST = -1;
+
+		if(PREFERREDHOSTOLD < 0) {
+			PREFERREDHOSTOLD = 0;
+		}
+
+		if(hosts != null) {
+			int index = 0;
+
+			while(index < hosts.size()) {
+				String host = hosts.get((PREFERREDHOSTOLD + index) % (hosts.size()));
+
+				int separator = host.indexOf(":");
+
+				SocketConnection connection = new SocketConnection((host.substring(0, separator)).trim(), Integer.parseInt((host.substring(separator+1)).trim()), sleep, timeout);
+				if(connection.isOpen()) {
+					if(threshold > 0) connection.setThreshold(threshold);
+
+					if(((new GetBalanceAndDate().getData(connection, msisdn, 0)) != null) || (connection.isAvailable())) {
+						this.PREFERREDHOST = ((PREFERREDHOSTOLD + index) % (hosts.size()));
+						break;
+					}
+				}
+
+				index++;
+			}
+		}
+
+		return this.PREFERREDHOST;
 	}
 
 }
