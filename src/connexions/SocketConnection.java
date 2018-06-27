@@ -119,7 +119,7 @@ public class SocketConnection {
 
             	if(link_timeout >= timeout) {
             		log(requete, null);
-            		handleTimeoutException(link_timeout);
+            		handleTimeoutException(requete, link_timeout);
             		return "";
             	}
 
@@ -127,10 +127,7 @@ public class SocketConnection {
             }
 
             // if link read exceedes threshold
-            if((threshold > 0) && (link_timeout >= threshold)) {
-            	if(requete.contains("<methodCall><methodName>Get")) ;
-            	else handleTimeThreshold(link_timeout);
-            }
+            if((threshold > 0) && (link_timeout >= threshold)) handleTimeThreshold(requete, link_timeout);
 
             // pause supplementaire pour s'assurer de la réception de l'entièreté de la reponse
             // Thread.sleep(10);
@@ -169,7 +166,7 @@ public class SocketConnection {
 
         } catch (SocketTimeoutException ex) {
     		log(requete, null);
-    		handleTimeoutException(timeout);
+    		handleTimeoutException(requete, timeout);
     		return "";
 
         } catch (IOException ex) {
@@ -196,14 +193,20 @@ public class SocketConnection {
 		}
 	}
 
-	public void handleTimeThreshold(int duration) {
-		Logger logger = LogManager.getLogger("logging.log4j.AirTimeThresholdLogger");
-		logger.error("HOST = " + ip + ",   PORT = " + port + ",   DURATION = " + duration);
+	public void handleTimeThreshold(String requete, int duration) {
+    	if(requete.contains("<methodCall><methodName>Get")) ;
+    	else {
+    		Logger logger = LogManager.getLogger("logging.log4j.AirTimeThresholdLogger");
+    		logger.error("HOST = " + ip + ",   PORT = " + port + ",   DURATION = " + duration);
+    	}
 	}
 
-	public void handleTimeoutException(int timeout) {
-		Logger logger = LogManager.getLogger("logging.log4j.AirAvailabilityLogger");
-		logger.error("HOST = " + ip + ",   PORT = " + port + ",   TIMEOUT = " + timeout);
+	public void handleTimeoutException(String requete, int timeout) {
+		if(requete.contains("<methodCall><methodName>Get")) ;
+		else {
+			Logger logger = LogManager.getLogger("logging.log4j.AirAvailabilityLogger");
+			logger.error("HOST = " + ip + ",   PORT = " + port + ",   TIMEOUT = " + timeout);
+		}
 	}
 
 }

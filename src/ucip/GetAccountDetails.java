@@ -73,7 +73,7 @@ public class GetAccountDetails {
                           int last=activationDate.indexOf("</dateTime.iso8601></value>");
                           details.put("activationDate",activationDate.substring(25, last));
                       }
-                      else if(ligne.equals("<name>communityInformationCurrent</name>")){
+                      else if(ligne.equals("<name>communityInformationCurrent</name>")) {
                           String communityIDs="";
                           String check=sortie.nextLine();
                           while(!check.equals("</array>")){

@@ -37,23 +37,23 @@ public class AccountDetails {
         return Integer.parseInt(details.get("languageIDCurrent"));
     }
     public int[] getCommunityInformationCurrent() {
-    	try{
-	        String []chaine=details.get("communityIDs").split("-");
-	        int len=chaine.length;
-	        int[] communityIDs=new int[len]; 
-	        
-	        for (int i=0;i<len;i++){
+    	try {
+	        String []chaine = details.get("communityIDs").split("-");
+	        int len = chaine.length;
+	        int[] communityIDs = new int[len];
+
+	        for (int i=0;i<len;i++) {
 	            communityIDs[i]=Integer.parseInt(chaine[i]);
 	        }
-	        
+
 	        return communityIDs;
 
         } catch(NumberFormatException e) {
             return null;
-            
+
         } catch(NullPointerException e) {
     		return null;
-    		
+
     	}
     }
 
