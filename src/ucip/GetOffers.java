@@ -15,19 +15,27 @@ public class GetOffers {
     public StringBuffer formerRequete(String msisdn,int[][] offerSelection,boolean requestInactiveOffersFlag,String offerRequestedTypeFlag,boolean requestDedicatedAccountDetailsFlag) {
     	StringBuffer offerIDs=new StringBuffer("");
 
-    	if(offerSelection!=null) {
+    	if(offerSelection != null) {
 	    	int nbre=offerSelection.length;
 	    	offerIDs.append("<member><name>offerSelection</name><value><array><data>");
-	
-	        for (int i=0;i<nbre;i++) {
-	        	int[]range=offerSelection[i];
-	        	offerIDs.append("<value><struct><member><name>offerIDFirst</name><value><i4>");
-	        	offerIDs.append(range[0]);
-	        	offerIDs.append("</i4></value></member><member><name>offerIDLast</name><value><i4>");
-	        	offerIDs.append(range[1]);
-	        	offerIDs.append("</i4></value></member></struct></value>");
+
+	        for (int i = 0; i < nbre; i++) {
+	        	int[]range = offerSelection[i];
+
+	        	if((range[0] <= 0) || (range[1] <= 0));
+	        	else {
+	        		offerIDs.append("<value><struct>");
+
+		        	offerIDs.append("<member><name>offerIDFirst</name><value><i4>");
+		        	offerIDs.append(range[0]);
+		        	offerIDs.append("</i4></value></member><member><name>offerIDLast</name><value><i4>");
+		        	offerIDs.append(range[1]);
+		        	offerIDs.append("</i4></value></member>");
+
+		        	offerIDs.append("</struct></value>");
+	        	}
 	        }
-	
+
 	        offerIDs.append("</data></array></value></member>");
         }
 
@@ -79,16 +87,6 @@ public class GetOffers {
                     String ligne=sortie.nextLine();
                     if(ligne==null) {
                         break;
-                    }
-                    else if(ligne.equals("<name>responseCode</name>")){
-                        String code_reponse=sortie.nextLine();
-                        int last=code_reponse.indexOf("</i4></value>");
-                        
-                        if(Integer.parseInt(code_reponse.substring(11, last)) == 165) {
-                        	data=new HashSet<OfferInformation>();
-                        	break;
-                        }
-
                     }
                     else if(ligne.equals("<name>offerInformation</name>")){
                         String check=sortie.nextLine();

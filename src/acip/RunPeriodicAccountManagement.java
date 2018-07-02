@@ -13,7 +13,7 @@ public class RunPeriodicAccountManagement {
 	public StringBuffer formerRequete(String msisdn,String originOperatorID, int pamServiceID) {  
 		StringBuffer requete=new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>RunPeriodicAccountManagement</methodName><params><param><value><struct><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originNodeType</name><value><string>EXT</string></value></member>");
 
-		if(originOperatorID!=null) {
+		if(originOperatorID != null) {
 			requete.append("<member><name>originOperatorID</name><value><string>");
 			requete.append(originOperatorID);
 			requete.append("</string></value></member>");

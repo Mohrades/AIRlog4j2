@@ -11,23 +11,26 @@ import util.DateTime_iso8601;
 public class UpdateOffer {
     
     public StringBuffer formerRequete(String msisdn, int offerID, Object startDate, Object expiryDate, Integer offerType, String originOperatorID) {
-    	StringBuffer date=new StringBuffer("");
-    	if(offerType==null)offerType=0;
-    	if(offerType!=2){
-    		if(startDate!=null){
-    		if(startDate instanceof Integer){	
-        			date.append("<member><name>startDateRelative</name><value><int>");
-        			date.append(((Integer)startDate));
-        			date.append("</int></value></member>");
-    			}
-    		else{
-    			date.append("<member><name>startDate</name><value><dateTime.iso8601>");
-				date.append((new DateTime_iso8601()).format(((Date)startDate)));
-				date.append("</dateTime.iso8601></value></member>");
+    	StringBuffer date = new StringBuffer("");
+
+    	if(offerType == null) offerType=0;
+
+    	if(offerType != 2) {
+    		if(startDate != null) {
+	    		if(startDate instanceof Integer) {	
+	        			date.append("<member><name>startDateRelative</name><value><int>");
+	        			date.append(((Integer)startDate));
+	        			date.append("</int></value></member>");
+	    		}
+	    		else {
+	    			date.append("<member><name>startDate</name><value><dateTime.iso8601>");
+					date.append((new DateTime_iso8601()).format(((Date)startDate)));
+					date.append("</dateTime.iso8601></value></member>");
+	    		}
     		}
-    		}
-    		if(expiryDate!=null){
-    			if(expiryDate instanceof Integer){
+
+    		if(expiryDate != null) {
+    			if(expiryDate instanceof Integer) {
     				date.append("<member><name>expiryDateRelative</name><value><int>");
     				date.append(((Integer)expiryDate));
     				date.append("</int></value></member>");
@@ -36,29 +39,29 @@ public class UpdateOffer {
     				date.append("<member><name>expiryDate</name><value><dateTime.iso8601>");
     				date.append((new DateTime_iso8601()).format(((Date)expiryDate)));
     				date.append("</dateTime.iso8601></value></member>");
+    		   }
     		}
     	}
-    		}
-    	else{
-    		if(startDate!=null){
-    			if(startDate instanceof Integer){
+    	else {
+    		if(startDate != null) {
+    			if(startDate instanceof Integer) {
     				date.append("<member><name>startDateTimeRelative</name><value><int>");
     				date.append(((Integer)startDate));
     				date.append("</int></value></member>");
     			}
-    			else{
+    			else {
     				date.append("<member><name>startDateTime</name><value><dateTime.iso8601>");
     				date.append((new DateTime_iso8601()).format(((Date)startDate)));
     				date.append("</dateTime.iso8601></value></member>");
     			}
-    			}
-    		if(expiryDate!=null){
-    			if(expiryDate instanceof Integer){
+    		}
+    		if(expiryDate != null) {
+    			if(expiryDate instanceof Integer) {
     				date.append("<member><name>expiryDateTimeRelative</name><value><int>");
 					date.append(((Integer)expiryDate));
     				date.append("</int></value></member>");
     			}
-    			else{
+    			else {
     				date.append("<member><name>expiryDateTime</name><value><dateTime.iso8601>");
     				date.append((new DateTime_iso8601()).format(((Date)expiryDate)));
     				date.append("</dateTime.iso8601></value></member>");
@@ -75,12 +78,12 @@ public class UpdateOffer {
     	requete.append(msisdn);
     	requete.append("</string></value></member>");
 
-    	if(originOperatorID!=null) {
+    	if(originOperatorID != null) {
         	requete.append("<member><name>originOperatorID</name><value><string>");
         	requete.append(originOperatorID);
         	requete.append("</string></value></member>");
-        	}
-    	
+        }
+
     	requete.append("<member><name>offerID</name><value><int>");
     	requete.append(offerID);
     	requete.append("</int></value></member>");

@@ -18,25 +18,37 @@ import util.DateTime_iso8601;
  */
 public class UpdateCommunityList {
 
-    public StringBuffer formerRequete(String msisdn,int[] communityOldIDs,int[] communityNewIDs,String originOperatorID){
+    public StringBuffer formerRequete(String msisdn, int[] communityOldIDs, int[] communityNewIDs, String originOperatorID){
     	StringBuffer communityOld=new StringBuffer("<member><name>communityInformationCurrent</name><value><array><data>");
-        int nbre=communityOldIDs.length;
-        for (int i=0;i<nbre;i++){
-            communityOld.append("<value><struct><member><name>communityID</name><value><i4>");
+        int nbre = communityOldIDs.length;
+
+        for (int i = 0; i < nbre; i++) {
+        	communityOld.append("<value><struct>");
+
+            communityOld.append("<member><name>communityID</name><value><i4>");
             communityOld.append(communityOldIDs[i]);
-            communityOld.append("</i4></value></member></struct></value>");
+            communityOld.append("</i4></value></member>");
+
+            communityOld.append("</struct></value>");
         }
-        communityOld.append("</data></array></value></member>");    
-        
-        StringBuffer communityNew= new StringBuffer("<member><name>communityInformationNew</name><value><array><data>");
-        nbre=communityNewIDs.length;
-        for (int i=0;i<nbre;i++){
-        	communityNew.append("<value><struct><member><name>communityID</name><value><i4>");
+        communityOld.append("</data></array></value></member>");
+
+
+        StringBuffer communityNew = new StringBuffer("<member><name>communityInformationNew</name><value><array><data>");
+        nbre = communityNewIDs.length;
+
+        for (int i = 0; i < nbre; i++) {
+        	communityNew.append("<value><struct>");
+
+        	communityNew.append("<member><name>communityID</name><value><i4>");
         	communityNew.append(communityNewIDs[i]);
-        	communityNew.append("</i4></value></member></struct></value>");
+        	communityNew.append("</i4></value></member>");
+
+        	communityNew.append("</struct></value>");
         }
-        communityNew.append("</data></array></value></member>");    
-        
+        communityNew.append("</data></array></value></member>");
+
+
         StringBuffer requete=new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>UpdateCommunityList</methodName><params><param><value><struct><member><name>originNodeType</name><value><string>EXT</string></value></member><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originTransactionID</name><value><string>");
     	requete.append((new SimpleDateFormat("yyMMddHHmmssS")).format(new Date()));
     	requete.append("</string></value></member><member><name>originTimeStamp</name><value><dateTime.iso8601>");
@@ -45,7 +57,8 @@ public class UpdateCommunityList {
     	requete.append("<member><name>subscriberNumber</name><value><string>");
     	requete.append(msisdn);
     	requete.append("</string></value></member>");
-    	if(originOperatorID!=null){
+
+    	if(originOperatorID != null) {
         	requete.append("<member><name>originOperatorID</name><value><string>");
         	requete.append(originOperatorID);
         	requete.append("</string></value></member>");
@@ -56,7 +69,8 @@ public class UpdateCommunityList {
     	
     	return requete;
             										
-}
+    }
+
     public boolean update(SocketConnection air, String msisdn,int[] communityOldIDs,int[] communityNewIDs,String originOperatorID){
     	boolean responseCode = false;
     	

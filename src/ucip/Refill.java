@@ -21,8 +21,8 @@ public class Refill {
     	requete.append("<member><name>subscriberNumber</name><value><string>");
     	requete.append(msisdn);
     	requete.append("</string></value></member>");
-    	
-    	if(transactionAmount!=null && transactionCurrency !=null && refillProfileID!=null){
+
+    	if((transactionAmount != null) && (transactionCurrency != null) && (refillProfileID != null)) {
     		requete.append("<member><name>transactionAmount</name><value><string>");
         	requete.append(transactionAmount);
         	requete.append("</string></value></member>");

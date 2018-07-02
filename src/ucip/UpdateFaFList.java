@@ -34,13 +34,17 @@ public class UpdateFaFList {
     		fafInformations=new StringBuffer("<member><name>fafInformationList</name><value><array><data>");
 
     		for(FafInformation faf:fafInformationList){
-    			fafInformations.append("<value><struct><member><name>fafInformation</name><value><struct><member><name>fafNumber</name><value><string>");
+    			fafInformations.append("<value><member><name>fafInformation</name><value><struct>");
+
+    			fafInformations.append("<member><name>fafNumber</name><value><string>");
     			fafInformations.append(faf.getFafNumber());
     			fafInformations.append("</string></value></member><member><name>owner</name><value><string>");
     			fafInformations.append(faf.getOwner());
     			fafInformations.append("</string></value></member><member><name>fafIndicatorList</name><value><array><data><value><struct><member><name>fafIndicator</name><value><i4>");
     			fafInformations.append(faf.getFafIndicator());
-    			fafInformations.append("</i4></value></member></struct></value></data></array></value></member></struct></value></member></struct></value>");
+    			fafInformations.append("</i4></value></member></struct></value></data></array></value></member>");
+
+    			fafInformations.append("</struct></value></member></value>");
     		}
 
     		fafInformations.append("</data></array></value></member>");

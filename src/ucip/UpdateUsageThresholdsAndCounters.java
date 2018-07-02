@@ -13,9 +13,9 @@ import util.UsageThreshold;
 
 public class UpdateUsageThresholdsAndCounters {
 
-    public StringBuffer formerRequete(String msisdn,HashSet<UsageCounterUsageThresholdInformation> usageCounterUpdateInformation,HashSet<UsageThreshold>usageThresholdUpdateInformation,String originOperatorID){
-    	StringBuffer counter=counter(usageCounterUpdateInformation);
-    	StringBuffer threshold=threshold(usageThresholdUpdateInformation);
+    public StringBuffer formerRequete(String msisdn, HashSet<UsageCounterUsageThresholdInformation> usageCounterUpdateInformation, HashSet<UsageThreshold>usageThresholdUpdateInformation, String originOperatorID) {
+    	StringBuffer counter = counter(usageCounterUpdateInformation);
+    	StringBuffer threshold = threshold(usageThresholdUpdateInformation);
 
     	StringBuffer requete=new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>UpdateUsageThresholdsAndCounters</methodName><params><param><value><struct><member><name>originNodeType</name><value><string>EXT</string></value></member><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originTransactionID</name><value><string>");
     	requete.append((new SimpleDateFormat("yyMMddHHmmssS")).format(new Date()));
@@ -25,11 +25,12 @@ public class UpdateUsageThresholdsAndCounters {
     	requete.append("<member><name>subscriberNumber</name><value><string>");
     	requete.append(msisdn);
     	requete.append("</string></value></member>");
-    	if(originOperatorID!=null){
+
+    	if(originOperatorID != null) {
         	requete.append("<member><name>originOperatorID</name><value><string>");
         	requete.append(originOperatorID);
         	requete.append("</string></value></member>");
-        	}
+        }
     	
     	requete.append("<member><name>transactionCurrency</name><value><string>XOF</string></value></member>");
     	requete.append(counter);
@@ -74,41 +75,44 @@ public class UpdateUsageThresholdsAndCounters {
     }
     
     public StringBuffer counter(HashSet<UsageCounterUsageThresholdInformation> usageCounterUpdateInformation){
-    	if(usageCounterUpdateInformation==null)return new StringBuffer("");
-    	else{
-    	StringBuffer counter=new StringBuffer("<member><name>usageCounterUpdateInformation</name><value><array><data>");
-    	for(UsageCounterUsageThresholdInformation usageCounter:usageCounterUpdateInformation){
-    		counter.append("<value><struct><member><name>usageCounterID</name><value><int>");
-    		counter.append(usageCounter.getUsageCounterID());
-    		counter.append("</int></value></member>");
-    		if(usageCounter.isAdjustmentUsageCounterRelative()){
-                    if(!usageCounter.isUsageCounterMonetary()){
-                    	counter.append("<member><name>adjustmentUsageCounterValueRelative</name><value><string>");
-                    	counter.append(usageCounter.getUsageCounterValue());
-                    	counter.append("</string></value></member></struct></value>");
-                    }
-                    else{
-                    	counter.append("<member><name>adjustmentUsageCounterMonetaryValueRelative</name><value><string>");
-                    	counter.append(usageCounter.getUsageCounterValue());
-                    	counter.append("</string></value></member></struct></value>");
-                    }
-           }
-    		else{
-                if(!usageCounter.isUsageCounterMonetary()){
-                	counter.append("<member><name>usageCounterValueNew</name><value><string>");
-                	counter.append(usageCounter.getUsageCounterValue());
-                	counter.append("</string></value></member></struct></value>");
-                }
-                else{
-                	counter.append("<member><name>usageCounterMonetaryValueNew</name><value><string>");
-                	counter.append(usageCounter.getUsageCounterValue());
-                	counter.append("</string></value></member></struct></value>");
-                }
-    		}
+    	if(usageCounterUpdateInformation == null) return new StringBuffer("");
+
+    	else {
+	    	StringBuffer counter=new StringBuffer("<member><name>usageCounterUpdateInformation</name><value><array><data>");
+
+	    	for(UsageCounterUsageThresholdInformation usageCounter:usageCounterUpdateInformation){
+	    		counter.append("<value><struct><member><name>usageCounterID</name><value><int>");
+	    		counter.append(usageCounter.getUsageCounterID());
+	    		counter.append("</int></value></member>");
+
+	    		if(usageCounter.isAdjustmentUsageCounterRelative()) {
+	                    if(!usageCounter.isUsageCounterMonetary()){
+	                    	counter.append("<member><name>adjustmentUsageCounterValueRelative</name><value><string>");
+	                    	counter.append(usageCounter.getUsageCounterValue());
+	                    	counter.append("</string></value></member></struct></value>");
+	                    }
+	                    else{
+	                    	counter.append("<member><name>adjustmentUsageCounterMonetaryValueRelative</name><value><string>");
+	                    	counter.append(usageCounter.getUsageCounterValue());
+	                    	counter.append("</string></value></member></struct></value>");
+	                    }
+	           }
+	    		else{
+	                if(!usageCounter.isUsageCounterMonetary()){
+	                	counter.append("<member><name>usageCounterValueNew</name><value><string>");
+	                	counter.append(usageCounter.getUsageCounterValue());
+	                	counter.append("</string></value></member></struct></value>");
+	                }
+	                else{
+	                	counter.append("<member><name>usageCounterMonetaryValueNew</name><value><string>");
+	                	counter.append(usageCounter.getUsageCounterValue());
+	                	counter.append("</string></value></member></struct></value>");
+	                }
+	    		}
+	    	}
+	    	counter.append("</data></array></value></member>");
+	    	return counter;
     	}
-    	counter.append("</data></array></value></member>");
-    	return counter;
-    }
     }
     
     public StringBuffer threshold(HashSet<UsageThreshold>usageThresholdUpdateInformation){

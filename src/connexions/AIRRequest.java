@@ -3,6 +3,7 @@ package connexions;
 import ucip.GetAccountDetails;
 import ucip.GetAccumulators;
 import ucip.GetBalanceAndDate;
+import ucip.GetDedicatedAccountInformation;
 import ucip.GetFaFList;
 import ucip.GetOffers;
 import ucip.GetUsageThresholdsAndCounters;
@@ -121,6 +122,15 @@ public class AIRRequest {
 		SocketConnection air = getConnection();
 
 		BalanceAndDate result = new GetBalanceAndDate().getData(air, msisdn, dedicatedAccountID);
+		setSuccessfully(air.isAvailable());
+
+		return result;
+	}
+
+	public HashSet<BalanceAndDate> getDedicatedAccounts(String msisdn, int[][] dedicatedAccountSelection) {
+		SocketConnection air = getConnection();
+
+		HashSet<BalanceAndDate> result = new GetDedicatedAccountInformation().getData(air, msisdn, dedicatedAccountSelection);
 		setSuccessfully(air.isAvailable());
 
 		return result;

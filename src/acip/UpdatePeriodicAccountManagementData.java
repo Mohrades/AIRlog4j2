@@ -78,8 +78,9 @@ public class UpdatePeriodicAccountManagementData {
     		}
 
     		/*for(PamUpdateInformation pam : list) {
-    			pamInformations.append("<value><struct><member><name>pamUpdateInformation</name><value><struct><member><name>pamClassIDOld</name><value><i4>");
+    			pamInformations.append("<value><member><name>pamUpdateInformation</name><value><struct>");
 
+    			pamInformations.append("<member><name>pamClassIDOld</name><value><i4>");
     			pamInformations.append(pam.getPamClassIDOld());
     			pamInformations.append("</i4></value></member>");
 				pamInformations.append("<member><name>pamClassIDNew</name><value><i4>");
@@ -121,7 +122,7 @@ public class UpdatePeriodicAccountManagementData {
     				pamInformations.append("</dateTime.iso8601></value></member>");
     			}
 
-				pamInformations.append("</struct></value></member></struct></value>");
+				pamInformations.append("</struct></value></member></value>");
     		}*/
 
     		pamInformations.append("</data></array></value></member>");    		

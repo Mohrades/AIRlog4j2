@@ -22,13 +22,14 @@ public class UpdateSubscriberSegmentation {
 
     public StringBuffer formerRequete(String msisdn,Integer accountGroupID,ServiceOfferings serviceOfferings,String originOperatorID) {
     	StringBuffer groupID=new StringBuffer("");
+
         if(accountGroupID == null);
         else {
             groupID.append("<member><name>accountGroupID</name><value><i4>");
             groupID.append(accountGroupID);
             groupID.append("</i4></value></member>");
         }
-        
+
         HashSet<Integer> offerings=serviceOfferings.getServiceOfferingActiveFlags();
         StringBuffer serviceOffering=new StringBuffer("<member><name>serviceOfferings</name><value><array><data>");
         for (Integer id:offerings) {
@@ -39,11 +40,15 @@ public class UpdateSubscriberSegmentation {
         	}
         	else value = 1;
 
-            serviceOffering.append("<value><struct><member><name>serviceOfferingActiveFlag</name><value><boolean>");
+        	serviceOffering.append("<value><struct>");
+
+            serviceOffering.append("<member><name>serviceOfferingActiveFlag</name><value><boolean>");
             serviceOffering.append(value);
             serviceOffering.append("</boolean></value></member><member><name>serviceOfferingID</name><value><i4>");
             serviceOffering.append(id);
-            serviceOffering.append("</i4></value></member></struct></value>");
+            serviceOffering.append("</i4></value></member>");
+
+            serviceOffering.append("</struct></value>");
         }
         serviceOffering.append("</data></array></value></member>"); 
         
@@ -55,17 +60,18 @@ public class UpdateSubscriberSegmentation {
     	requete.append("<member><name>subscriberNumber</name><value><string>");
     	requete.append(msisdn);
     	requete.append("</string></value></member>");
-    	if(originOperatorID!=null){
+
+    	if(originOperatorID != null) {
         	requete.append("<member><name>originOperatorID</name><value><string>");
         	requete.append(originOperatorID);
         	requete.append("</string></value></member>");
-        	}
+        }
     	
     	requete.append(groupID);
     	requete.append(serviceOffering);	
-    	
+
     	return requete;
-}
+    }
     
     public boolean update(SocketConnection air, String msisdn,Integer accountGroupID,ServiceOfferings serviceOfferings,String originOperatorID){
     	boolean responseCode = false;

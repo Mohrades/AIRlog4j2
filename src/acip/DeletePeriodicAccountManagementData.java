@@ -22,7 +22,9 @@ public class DeletePeriodicAccountManagementData {
     		pamInformations = new StringBuffer("<member><name>pamInformationList</name><value><array><data>");
 
     		for(PamInformation pam : list) {
-    			pamInformations.append("<value><struct><member><name>pamClassID</name><value><i4>");
+    			pamInformations.append("<value><struct>");
+
+    			pamInformations.append("<member><name>pamClassID</name><value><i4>");
     			pamInformations.append(pam.getPamClassID());
     			pamInformations.append("</i4></value></member><member><name>pamServiceID</name><value><i4>");
     			pamInformations.append(pam.getPamServiceID());
@@ -40,7 +42,9 @@ public class DeletePeriodicAccountManagementData {
     		}
 
         	/*for(PamInformation pam : list) {
-    			pamInformations.append("<value><struct><member><name>pamInformation</name><value><struct><member><name>pamClassID</name><value><i4>");
+    			pamInformations.append("<value><member><name>pamInformation</name><value><struct>");
+
+    			pamInformations.append("<member><name>pamClassID</name><value><i4>");
     			pamInformations.append(pam.getPamClassID());
     			pamInformations.append("</i4></value></member><member><name>pamServiceID</name><value><i4>");
     			pamInformations.append(pam.getPamServiceID());
@@ -54,7 +58,7 @@ public class DeletePeriodicAccountManagementData {
     				pamInformations.append("</string></value></member>");
     			}
 
-    			pamInformations.append("</struct></value></member></struct></value>");
+    			pamInformations.append("</struct></value></member></value>");
     		}*/
 
     		pamInformations.append("</data></array></value></member>");
@@ -81,8 +85,7 @@ public class DeletePeriodicAccountManagementData {
 
 public boolean delete(SocketConnection air, String msisdn, PamInformationList pamInformationList, String originOperatorID, boolean acceptServiceIDNotExist){
 	boolean responseCode = false;
-	// new PamInformationList(pamServiceID, pamClassID, pamScheduleID)
-	
+
 	try{
 		if(air.isOpen()) {
 			StringBuffer requete = formerRequete(msisdn, pamInformationList, originOperatorID);

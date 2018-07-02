@@ -13,28 +13,35 @@ import connexions.SocketConnection;
 public class DeleteDedicatedAccounts {
     
     public StringBuffer formerRequete(String msisdn,Integer serviceClassCurrent ,HashSet<DedicatedAccount> dedicatedAccountIdentifier,String originOperatorID){
-    	StringBuffer serviceClass=new StringBuffer("");
-    	StringBuffer dedicatedAccountIDs=new StringBuffer("");
-    	if(serviceClassCurrent!=null){
+    	StringBuffer serviceClass = new StringBuffer("");
+    	StringBuffer dedicatedAccountIDs = new StringBuffer("");
+
+    	if(serviceClassCurrent != null) {
     		serviceClass.append("<member><name>serviceClassCurrent</name><value><i4>");
     		serviceClass.append(serviceClassCurrent);
     		serviceClass.append("</i4></value></member>");
     	}
-    	for (DedicatedAccount DA:dedicatedAccountIdentifier){
-    		dedicatedAccountIDs.append("<value><struct><member><name>dedicatedAccountID</name><value><int>");
+
+    	for (DedicatedAccount DA : dedicatedAccountIdentifier) {
+    		dedicatedAccountIDs.append("<value><struct>");
+
+    		dedicatedAccountIDs.append("<member><name>dedicatedAccountID</name><value><int>");
     		dedicatedAccountIDs.append(DA.getAccountID());
     		dedicatedAccountIDs.append("</int></value></member>");
-    		if(DA.getExpiryDate()!=null){
+
+    		if(DA.getExpiryDate() != null) {
     			dedicatedAccountIDs.append("<member><name>expiryDate</name><value><dateTime.iso8601>");
     			dedicatedAccountIDs.append((new DateTime_iso8601()).format((Date)DA.getExpiryDate()));
     			dedicatedAccountIDs.append("</dateTime.iso8601></value></member>");
     		}
+
     		dedicatedAccountIDs.append("</struct></value>");
     	}
-    	StringBuffer entete=new StringBuffer("<member><name>dedicatedAccountIdentifier</name><value><array><data>");
+
+    	StringBuffer entete = new StringBuffer("<member><name>dedicatedAccountIdentifier</name><value><array><data>");
     	dedicatedAccountIDs.append("</data></array></value></member>");
-    	dedicatedAccountIDs=entete.append(dedicatedAccountIDs);
-    	
+    	dedicatedAccountIDs = entete.append(dedicatedAccountIDs);
+
     	StringBuffer requete = new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>DeleteDedicatedAccounts</methodName><params><param><value><struct><member><name>originNodeType</name><value><string>EXT</string></value></member><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originTransactionID</name><value><string>");
     	requete.append((new SimpleDateFormat("yyMMddHHmmssS")).format(new Date()));
     	requete.append("</string></value></member><member><name>originTimeStamp</name><value><dateTime.iso8601>");
@@ -43,7 +50,7 @@ public class DeleteDedicatedAccounts {
     	requete.append("<member><name>subscriberNumber</name><value><string>");
     	requete.append(msisdn);
     	requete.append("</string></value></member>");
-    	if(originOperatorID!=null){
+    	if(originOperatorID!=null) {
         	requete.append("<member><name>originOperatorID</name><value><string>");
         	requete.append(originOperatorID);
         	requete.append("</string></value></member>");

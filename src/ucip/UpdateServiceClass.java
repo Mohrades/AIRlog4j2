@@ -20,15 +20,15 @@ public class UpdateServiceClass {
 
     public StringBuffer formerRequete(String msisdn,String serviceClassAction,int serviceClassNew,int serviceClassTemporaryNew,Date serviceClassTemporaryNewExpiryDate,String originOperatorID){ 
     	StringBuffer date=new StringBuffer("");
-        if(serviceClassTemporaryNewExpiryDate==null);
-        else
-            {        
+
+        if(serviceClassTemporaryNewExpiryDate == null);
+        else {        
             date.append("<member><name>serviceClassTemporaryNewExpiryDate</name><value><dateTime.iso8601>");
             date.append((new DateTime_iso8601()).format(serviceClassTemporaryNewExpiryDate));
             date.append("</dateTime.iso8601></value></member>");
-                }
+       }
         
-        StringBuffer chaine=new StringBuffer("");
+        StringBuffer chaine = new StringBuffer("");
         if(serviceClassAction.equals("SetOriginal")){
             chaine.append("<member><name>serviceClassNew</name><value><i4>");
             chaine.append(serviceClassNew);

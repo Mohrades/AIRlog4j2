@@ -14,15 +14,21 @@ public class DeleteUsageThresholds {
 
     public StringBuffer formerRequete(String msisdn,HashSet<UsageThreshold> usageThresholds,String originOperatorID){
     	StringBuffer usageThresholdIDs=new StringBuffer("");
-    	for(UsageThreshold threshold:usageThresholds){
-    		usageThresholdIDs.append("<value><struct><member><name>usageThresholdID</name><value><int>");
+
+    	for(UsageThreshold threshold:usageThresholds) {
+    		usageThresholdIDs.append("<value><struct>");
+
+    		usageThresholdIDs.append("<member><name>usageThresholdID</name><value><int>");
     		usageThresholdIDs.append(threshold.getUsageThresholdID());
-    		usageThresholdIDs.append("</int></value></member></struct></value>");
+    		usageThresholdIDs.append("</int></value></member>");
+
+    		usageThresholdIDs.append("</struct></value>");
     	}
+
     	usageThresholdIDs.append("</data></array></value></member>");
-    	StringBuffer entete=new StringBuffer("<member><name>usageThresholds</name><value><array><data>");
-    	usageThresholdIDs=entete.append(usageThresholdIDs);
-    	
+    	StringBuffer entete = new StringBuffer("<member><name>usageThresholds</name><value><array><data>");
+    	usageThresholdIDs = entete.append(usageThresholdIDs);
+
     	StringBuffer requete =new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>DeleteUsageThresholds</methodName><params><param><value><struct><member><name>originNodeType</name><value><string>EXT</string></value></member><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originTransactionID</name><value><string>");
     	requete.append((new SimpleDateFormat("yyMMddHHmmssS")).format(new Date()));
     	requete.append("</string></value></member><member><name>originTimeStamp</name><value><dateTime.iso8601>");

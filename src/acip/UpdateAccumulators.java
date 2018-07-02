@@ -12,29 +12,34 @@ import connexions.SocketConnection;
 
 public class UpdateAccumulators {
 
-    public StringBuffer formerRequete(String msisdn,HashSet<AccumulatorInformation> accumulatorUpdateInformation,String originOperatorID){
+    public StringBuffer formerRequete(String msisdn,HashSet<AccumulatorInformation> accumulatorUpdateInformation,String originOperatorID) {
     	StringBuffer accumulatorInformation=new StringBuffer("<member><name>accumulatorUpdateInformation</name><value><array><data>");
-    	for (AccumulatorInformation accumulator:accumulatorUpdateInformation){
-    		accumulatorInformation.append("<value><struct><member><name>accumulatorID</name><value><i4>");
+
+    	for (AccumulatorInformation accumulator:accumulatorUpdateInformation) {
+    		accumulatorInformation.append("<value><struct>");
+
+    		accumulatorInformation.append("<member><name>accumulatorID</name><value><i4>");
     		accumulatorInformation.append(accumulator.getAccumulatorID());
     		accumulatorInformation.append("</i4></value></member>");
-    		if(accumulator.getAccumulatorStartDate()!=null){
+
+    		if(accumulator.getAccumulatorStartDate() != null) {
     			accumulatorInformation.append("<member><name>accumulatorStartDate</name><value><dateTime.iso8601>");
     			accumulatorInformation.append((new DateTime_iso8601()).format(accumulator.getAccumulatorStartDate()));
     			accumulatorInformation.append("</dateTime.iso8601></value></member>");
     		}
-    		if(accumulator.isAccumulatorValueRelative()){
+    		if(accumulator.isAccumulatorValueRelative()) {
     			accumulatorInformation.append("<member><name>accumulatorValueRelative</name><value><i4>");
     			accumulatorInformation.append(accumulator.getAccumulatorValue());
     			accumulatorInformation.append("</i4></value></member>");
     		}
-    		else{
+    		else {
     			accumulatorInformation.append("<member><name>accumulatorValueAbsolute</name><value><i4>");
     			accumulatorInformation.append(accumulator.getAccumulatorValue());
     			accumulatorInformation.append("</i4></value></member>");
-    		}  					
+    		}
+
     		accumulatorInformation.append("</struct></value>");
-}
+    	}
     	accumulatorInformation.append("</data></array></value></member>");
     	
     	StringBuffer requete=new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>UpdateAccumulators</methodName><params><param><value><struct><member><name>originNodeType</name><value><string>EXT</string></value></member><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originTransactionID</name><value><string>");

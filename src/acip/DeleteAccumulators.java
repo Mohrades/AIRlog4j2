@@ -13,29 +13,34 @@ import connexions.SocketConnection;
 public class DeleteAccumulators {
 
     public StringBuffer formerRequete(String msisdn,Integer serviceClassCurrent ,HashSet<AccumulatorInformation> accumulatorIdentifier,String originOperatorID){
-    	StringBuffer serviceClass=new StringBuffer("");
-    	StringBuffer accumulatorIDs=new StringBuffer("");
-    	if(serviceClassCurrent!=null){
+    	StringBuffer serviceClass = new StringBuffer("");
+    	StringBuffer accumulatorIDs = new StringBuffer("");
+
+    	if(serviceClassCurrent != null) {
     		serviceClass.append("<member><name>serviceClassCurrent</name><value><i4>");
     		serviceClass.append(serviceClassCurrent);
     		serviceClass.append("</i4></value></member>");
     	}
-    	for (AccumulatorInformation accumulator:accumulatorIdentifier){
-    		accumulatorIDs.append("<value><struct><member><name>accumulatorID</name><value><int>");
+
+    	for (AccumulatorInformation accumulator:accumulatorIdentifier) {
+    		accumulatorIDs.append("<value><struct>");
+
+    		accumulatorIDs.append("<member><name>accumulatorID</name><value><int>");
     		accumulatorIDs.append(accumulator.getAccumulatorID());
     		accumulatorIDs.append("</int></value></member>");
+
     		if(accumulator.getAccumulatorEndDate()!=null){
     			accumulatorIDs.append("<member><name>accumulatorEndDate</name><value><dateTime.iso8601>");
     			accumulatorIDs.append((new DateTime_iso8601()).format(accumulator.getAccumulatorEndDate()));
     			accumulatorIDs.append("</dateTime.iso8601></value></member>");
     		}
+
     		accumulatorIDs.append("</struct></value>");
     	}
     	accumulatorIDs.append("</data></array></value></member>");
-    	StringBuffer entete=new StringBuffer("<member><name>accumulatorIdentifier</name><value><array><data>");
-    	accumulatorIDs=entete.append(accumulatorIDs);
-    	
-    	
+    	StringBuffer entete = new StringBuffer("<member><name>accumulatorIdentifier</name><value><array><data>");
+    	accumulatorIDs = entete.append(accumulatorIDs);
+
     	StringBuffer requete=new StringBuffer("<?xml version=\"1.0\"?><methodCall><methodName>DeleteAccumulators</methodName><params><param><value><struct><member><name>originNodeType</name><value><string>EXT</string></value></member><member><name>originHostName</name><value><string>SRVPSAPP03mtnlocal</string></value></member><member><name>originTransactionID</name><value><string>");
     	requete.append((new SimpleDateFormat("yyMMddHHmmssS")).format(new Date()));
     	requete.append("</string></value></member><member><name>originTimeStamp</name><value><dateTime.iso8601>");
