@@ -67,7 +67,7 @@ public class AIRRequest {
 		waitingForResponse = true;
 	}
 
-	public SocketConnection getConnection() {
+	private SocketConnection getConnection() {
 		if(hosts != null) {
 			SocketConnection connection = null;
 
